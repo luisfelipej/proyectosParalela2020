@@ -1,5 +1,6 @@
 <?php
 	include_once('lib/nusoap.php');
+	include 'utils.php';
 	
 	/* Configuracion server */
 	$sn = "urn:webService";
@@ -18,10 +19,14 @@
 
   // Metodos
   function postulation($fileName, $mimeTypem, $file){
-    global $HTTP_SERVER_VARS;
-    $decodedFile = base64_decode($file);
-    $parsedCsv = str_getcsv($decodedFile);
-    return [$fileName, 'testttttting'];
+    try {
+      global $HTTP_SERVER_VARS;
+      $lines = explode("\n", $file);
+      insertPostulants($lines);
+      return [$fileName, 'mime','AAA'];
+    } catch (\Throwable $th) {
+      return [$th];
+    }
   }
 	
 	
