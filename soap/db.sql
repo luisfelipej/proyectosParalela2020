@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 09/06/2020 15:44:58
+ Date: 10/06/2020 00:42:00
 */
 
 SET NAMES utf8mb4;
@@ -49,10 +49,23 @@ CREATE TABLE `Postulants` (
   `lang` double(255,0) DEFAULT NULL,
   `cienc` double(255,0) DEFAULT NULL,
   `hist` double(255,0) DEFAULT NULL,
-  `careerId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`rut`) USING BTREE,
-  KEY `careerFK` (`careerId`),
-  CONSTRAINT `careerFK` FOREIGN KEY (`careerId`) REFERENCES `Careers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  PRIMARY KEY (`rut`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for Postulations
+-- ----------------------------
+DROP TABLE IF EXISTS `Postulations`;
+CREATE TABLE `Postulations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `postulantId` bigint(20) DEFAULT NULL,
+  `careerId` int(11) DEFAULT NULL,
+  `score` double(255,0) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `postulantFK` (`postulantId`),
+  KEY `careerFK` (`careerId`),
+  CONSTRAINT `careerFK` FOREIGN KEY (`careerId`) REFERENCES `Careers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `postulantFK` FOREIGN KEY (`postulantId`) REFERENCES `Postulants` (`rut`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=572 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;
