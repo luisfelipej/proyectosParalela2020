@@ -22,8 +22,8 @@
     try {
       global $HTTP_SERVER_VARS;
       $lines = explode("\n", $file);
-      insertPostulants($lines);
-      return [$fileName, 'mime','AAA'];
+      $base64File = managePostulants($lines);
+      return [$fileName, 'mime',$base64File];
     } catch (\Throwable $th) {
       return [$th];
     }
