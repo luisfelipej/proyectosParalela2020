@@ -54,7 +54,6 @@ function managePostualtion($postulants, $careerId, $PDO){
     $setCareerToPostulantQuery->bindParam(':careerId', $careerId, PDO::PARAM_INT);
     $setCareerToPostulantQuery->bindParam(':rut', $postulant["postulantId"], PDO::PARAM_INT);
     $setCareerToPostulantQuery->execute();
-    // $setCareerToPostulantQuery->debugDumpParams();
   }
 }
 
