@@ -61,7 +61,6 @@ function insertPostulants($postulants, $PDO, $careers){
   $insertPostulantQuery = $PDO->prepare("INSERT INTO Postulants (rut, nem, ranking, math, lang, cienc, hist) VALUES (?,?,?,?,?,?,?)");
   foreach ($postulants as $key => $scores) {
     $decodedLine = explode(";",$scores);
-    $return = $decodedLine;
     calculatePonderation($decodedLine, $careers, $PDO);
     $insertPostulantQuery->execute($decodedLine);
   }
