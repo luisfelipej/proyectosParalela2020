@@ -20,10 +20,11 @@
   // Metodos
   function postulation($fileName, $mimeTypem, $file){
     try {
+      $defaultMime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
       global $HTTP_SERVER_VARS;
       $lines = explode("\n", $file);
-      insertPostulants($lines);
-      return [$fileName, 'mime','AAA'];
+      $base64File = managePostulants($lines);
+      return [$fileName, $defaultMime ,$base64File];
     } catch (\Throwable $th) {
       return [$th];
     }
