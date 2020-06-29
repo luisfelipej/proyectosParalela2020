@@ -1,6 +1,22 @@
 {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": false,
+  "editor.formatOnSave": false,
+  "javascript.format.enable": false,
+  "eslint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.options": {
+    "extensions": [
+      ".html",
+      ".js",
+      ".jsx"
+    ]
+  },
+  "eslint.validate": [
+    "html",
+    "vue",
+    "javascript",
+    "javascriptreact"
+  ],
 }
