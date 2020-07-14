@@ -8,6 +8,7 @@ const indexRouter = require(`./routes/index`)
 
 const app = express()
 
+require(`dotenv`).config()
 app.use(cors())
 app.use(jwt({ secret: process.env.SECRET || `secret_token` }))
 app.use(logger(`dev`))
