@@ -5,22 +5,22 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       vacancies: DataTypes.INTEGER,
       code: DataTypes.INTEGER,
-      lang: DataTypes.INTEGER,
-      math: DataTypes.INTEGER,
-      ciencHist: DataTypes.INTEGER,
+      lang: DataTypes.DOUBLE,
+      math: DataTypes.DOUBLE,
+      ciencHist: DataTypes.DOUBLE,
       avgMathlang: DataTypes.INTEGER,
-      ranking: DataTypes.INTEGER,
-      nem: DataTypes.INTEGER,
-      firstScore: DataTypes.INTEGER,
-      lastScore: DataTypes.INTEGER,
+      ranking: DataTypes.DOUBLE,
+      nem: DataTypes.DOUBLE,
+      firstScore: DataTypes.DOUBLE,
+      lastScore: DataTypes.DOUBLE,
+      minScore: DataTypes.DOUBLE,
     },
     {},
   )
   Career.associate = function associate(models) {
     // associations can be defined here
-    Career.belongsToMany(models.Postulant, {
+    Career.hasMany(models.Postulation, {
       as: `postulations`,
-      through: models.Postulation,
       foreignkey: `careerId`,
     })
   }

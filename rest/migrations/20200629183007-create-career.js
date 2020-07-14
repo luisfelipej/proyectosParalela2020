@@ -17,40 +17,45 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       lang: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       math: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       ciencHist: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       avgMathlang: {
         type: Sequelize.INTEGER,
       },
       ranking: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       nem: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       firstScore: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
       },
       lastScore: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
+      },
+      minScore: {
+        type: Sequelize.DOUBLE,
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn(`now`),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn(`now`),
       },
     })
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable(`Careers`)
   },
 }
