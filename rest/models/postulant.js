@@ -10,13 +10,30 @@ module.exports = (sequelize, DataTypes) => {
       cienc: DataTypes.DOUBLE,
       hist: DataTypes.DOUBLE,
     },
-    {},
+    {
+      scopes: {
+        topCareers(limit) {
+          return {
+            include: [
+              {
+                association: `postulations`,
+                attributes: [`score`],
+                include: [
+                  { association: `career`, attributes: [`name`, `code`] },
+                ],
+                order: [[`score`, `DESC`]],
+                limit,
+              },
+            ],
+          }
+        },
+      },
+    },
   )
   Postulant.associate = function associate(models) {
     // associations can be defined here
-    Postulant.belongsToMany(models.Career, {
+    Postulant.hasMany(models.Postulation, {
       as: `postulations`,
-      through: models.Postulation,
       foreignkey: `postulantId`,
     })
   }

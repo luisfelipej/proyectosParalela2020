@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "lint": "eslint --debug .",
-    "lint:write": "eslint --debug . --fix"
+    "lint:write": "eslint --debug . --fix",
+    "db:sync": "NODE_ENV=local node_modules/.bin/sequelize db:create && NODE_ENV=local node_modules/.bin/sequelize db:migrate && NODE_ENV=local node_modules/.bin/sequelize db:seed:all"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
