@@ -33,7 +33,7 @@ async function insertPostulant(rawPostulant) {
         code,
       }) => {
         // Se calcula la ponderacion del postulante
-        const canPostulate = (postulant.math + postulant.lang) / 2 > avgMathlang
+        const canPostulate = (postulant.math + postulant.lang) / 2 >= avgMathlang
         const score =
           lang * postulant.lang +
           math * postulant.math +
@@ -54,7 +54,7 @@ async function insertPostulant(rawPostulant) {
       },
     )
     await Promise.all(postulationsPromises)
-    return postulations.sort((a, b) => b.score - a.score)
+    return postulations.sort((a, b) => b.score - a.score).slice(0,9);
   } catch (error) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }
