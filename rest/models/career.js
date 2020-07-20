@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       firstScore: DataTypes.DOUBLE,
       lastScore: DataTypes.DOUBLE,
       minScore: DataTypes.DOUBLE,
+      estimatedPlace: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return parseFloat(Math.trunc((this.firstScore - this.lastScore) / this.vacancies *1000)/1000).toFixed(3)
+        }
+      } 
     },
     {},
   )
@@ -26,3 +32,4 @@ module.exports = (sequelize, DataTypes) => {
   }
   return Career
 }
+

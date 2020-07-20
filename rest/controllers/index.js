@@ -1,14 +1,31 @@
 const models = require(`../models`)
 
 function formatCareers(postulant) {
-  const { postulations } = postulant.get({ plain: true })
+  const { postulations } = postulant.get({ plain: true }) 
   return postulations.map(({ score, career }) => ({
     score,
     name: career.name,
     code: career.code,
-    estimatedPlace: `TODO`,
+    estimatedPlace: career.estimatedPlace,
+    
   }))
 }
+/*
+function estimatedPlaces(careers) {
+  const {postulations} = postulant.get({plain: true})
+  const arraycareer =[]
+  let firstscore = career.firstscore,
+      lastscore = career.lastscore,
+      vacants = career.vacancies,
+      total = ((firstscore - lastscore) / vacants)
+
+  arraycareer.forEach(function(arraycareers.push(total)))
+  return postulations.map(({career}) => ({
+    firstscore: career.firstscore
+  }))
+
+}
+*/
 
 async function insertPostulant(rawPostulant) {
   try {
@@ -42,7 +59,7 @@ async function insertPostulant(rawPostulant) {
           nem * postulant.nem
 
         if (score > minScore && canPostulate) {
-          postulations.push({ score, name, code, estimatedPlace: `TODO` })
+          postulations.push({ score, name, code, estimatedPlace })
           postulationsPromises.push(
             models.Postulation.create({
               score,
@@ -54,7 +71,7 @@ async function insertPostulant(rawPostulant) {
       },
     )
     await Promise.all(postulationsPromises)
-    return postulations.sort((a, b) => b.score - a.score).slice(0,9);
+    return postulations.sort((a, b) => b.score - a.score).slice(10);
   } catch (error) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }

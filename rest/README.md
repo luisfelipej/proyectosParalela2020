@@ -30,10 +30,11 @@ $ npm start
 
 Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
 
-| Nombre    | URL                     | Verbo | Descripción |
-| --------- | ----------------------- | ----- | ----------- |
-| Endpoint1 | [localhost:4000/][pldb] | GET   |
-| Endpoint2 | [localhost:4000/][plgh] | GET   |
+| Nombre        | URL                     | Verbo | Descripción |
+| ---------     | ----------------------- | ----- | ----------- |
+| careersByName | [localhost:4000/][pldb] | GET   | Consultar los puntajes de postulación para algunas (una o más) carreras en función de ciertos valores que pueden o no pueden estar presente.
+| careerByCode  | [localhost:4000/][plgh] | GET   | Consultar los puntajes de postulación para una carrera específica
+| topCareers    | [localhost:4000/][plgh] | POST  | Consultar en base a puntajes puntajes, las 10 carreras en las que   mejores opciones se tiene para postular a la Universidad.
 
 ### Todos
 
