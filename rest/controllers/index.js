@@ -6,7 +6,11 @@ function formatCareers(postulant) {
     score,
     name: career.name,
     code: career.code,
-    estimatedPlace: `TODO`,
+    estimatedPlace: parseFloat(
+      Number((career.firstScore - career.lastScore) / career.vacancies).toFixed(
+        2,
+      ),
+    ),
   }))
 }
 
@@ -15,7 +19,7 @@ async function insertPostulant(rawPostulant) {
     // Se inserta postulante
     const postulant = await models.Postulant.create(rawPostulant)
     // Se obtienen todas las carreras para calcular la ponderacion del estudiante
-    const careers = await models.Career.findAll({ raw: true })
+    const careers = await models.Career.findAll()
     const postulationsPromises = []
     const postulations = []
 
@@ -31,9 +35,11 @@ async function insertPostulant(rawPostulant) {
         minScore,
         name,
         code,
+        estimatedPlace,
       }) => {
         // Se calcula la ponderacion del postulante
-        const canPostulate = (postulant.math + postulant.lang) / 2 >= avgMathlang
+        const canPostulate =
+          (postulant.math + postulant.lang) / 2 >= avgMathlang
         const score =
           lang * postulant.lang +
           math * postulant.math +
@@ -42,7 +48,7 @@ async function insertPostulant(rawPostulant) {
           nem * postulant.nem
 
         if (score > minScore && canPostulate) {
-          postulations.push({ score, name, code, estimatedPlace: `TODO` })
+          postulations.push({ score, name, code, estimatedPlace })
           postulationsPromises.push(
             models.Postulation.create({
               score,
@@ -54,7 +60,11 @@ async function insertPostulant(rawPostulant) {
       },
     )
     await Promise.all(postulationsPromises)
+<<<<<<< HEAD
+    return postulations.sort((a, b) => b.score - a.score).slice(10)
+=======
     return postulations.sort((a, b) => b.score - a.score).slice(10);
+>>>>>>> 3b167f82e9d49c2627d3762442088fcb48b4353c
   } catch (error) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }
@@ -87,7 +97,6 @@ async function careerByCode(req, res) {
 }
 
 async function careersByName(req, res) {
-  // TODO: normalizar el string de los nombres antes de comprar en la db
   const { careerNames } = req.query
   if (!careerNames || careerNames.length === 0) {
     return res.status(400).json({

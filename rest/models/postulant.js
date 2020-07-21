@@ -19,7 +19,16 @@ module.exports = (sequelize, DataTypes) => {
                 association: `postulations`,
                 attributes: [`score`],
                 include: [
-                  { association: `career`, attributes: [`name`, `code`] },
+                  {
+                    association: `career`,
+                    attributes: [
+                      `name`,
+                      `code`,
+                      `firstScore`,
+                      `lastScore`,
+                      `vacancies`,
+                    ],
+                  },
                 ],
                 order: [[`score`, `DESC`]],
                 limit,

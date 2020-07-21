@@ -30,10 +30,99 @@ $ npm start
 
 Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
 
-| Nombre    | URL                     | Verbo | Descripción |
-| --------- | ----------------------- | ----- | ----------- |
-| Endpoint1 | [localhost:4000/][pldb] | GET   |
-| Endpoint2 | [localhost:4000/][plgh] | GET   |
+| Nombre        | URL                     | Verbo | Descripción |
+| ---------     | ----------------------- | ----- | ----------- |
+| careersByName | [localhost:4000/][pldb] | GET   | Consultar los puntajes de postulación para algunas (una o más) carreras en función de ciertos valores que pueden o no pueden estar presente.
+| careerByCode  | [localhost:4000/][plgh] | GET   | Consultar los puntajes de postulación para una carrera específica
+| topCareers    | [localhost:4000/][plgh] | POST  | Consultar en base a puntajes puntajes, las 10 carreras en las que   mejores opciones se tiene para postular a la Universidad.
+
+### Request
+-   ```
+    http://localhost:3000/careersByName?careerNames=arquitectura&careerNames=administracion%20publica
+
+    ```
+    careerNames: Arquitectura, 
+    careerNames: administracion publica
+-   ```
+    http://localhost:3000/careerByCode?code=21041
+
+    ```
+    code: 21041
+-    ```
+    http://localhost:4000/topCareers
+
+    ```
+
+
+### Response
+-   ``` 
+    {
+    "success": true,
+    "data": [
+        {
+        "estimatedPlace": "3.222",
+        "id": 1,
+        "name": "Administración Pública",
+        "vacancies": 35,
+        "code": 21089,
+        "lang": 0.3,
+        "math": 0.25,
+        "ciencHist": 0.1,
+        "avgMathlang": 450,
+        "ranking": 0.2,
+        "nem": 0.15,
+        "firstScore": 625.8,
+        "lastScore": 513,
+        "minScore": 400,
+        "createdAt": "2020-07-19T01:24:22.000Z",
+        "updatedAt": "2020-07-19T01:24:22.000Z"
+        },
+        {
+        "estimatedPlace": "1.128",
+        "id": 8,
+        "name": "Arquitectura",
+        "vacancies": 100,
+        "code": 21047,
+        "lang": 0.2,
+        "math": 0.2,
+        "ciencHist": 0.2,
+        "avgMathlang": 450,
+        "ranking": 0.25,
+        "nem": 0.15,
+        "firstScore": 640.2,
+        "lastScore": 527.4,
+        "minScore": 400,
+        "createdAt": "2020-07-19T01:24:22.000Z",
+        "updatedAt": "2020-07-19T01:24:22.000Z"
+        }
+    ]
+    }
+    ```
+-   ```
+    {
+    "success": true,
+    "data": {
+        "estimatedPlace": "1.030",
+        "id": 21,
+        "name": "Ingeniería Civil en Computación mención Informática ",
+        "vacancies": 130,
+        "code": 21041,
+        "lang": 0.2,
+        "math": 0.35,
+        "ciencHist": 0.1,
+        "avgMathlang": 450,
+        "ranking": 0.25,
+        "nem": 0.1,
+        "firstScore": 673.5,
+        "lastScore": 539.5,
+        "minScore": 400,
+        "createdAt": "2020-07-19T01:24:22.000Z",
+        "updatedAt": "2020-07-19T01:24:22.000Z"
+    }
+    }
+    ```
+- 
+
 
 ### Todos
 
