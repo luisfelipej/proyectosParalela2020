@@ -1,38 +1,25 @@
 const models = require(`../models`)
 
 function formatCareers(postulant) {
-  const { postulations } = postulant.get({ plain: true }) 
+  const { postulations } = postulant.get({ plain: true })
   return postulations.map(({ score, career }) => ({
     score,
     name: career.name,
     code: career.code,
-    estimatedPlace: career.estimatedPlace,
-    
+    estimatedPlace: parseFloat(
+      Number((career.firstScore - career.lastScore) / career.vacancies).toFixed(
+        2,
+      ),
+    ),
   }))
 }
-/*
-function estimatedPlaces(careers) {
-  const {postulations} = postulant.get({plain: true})
-  const arraycareer =[]
-  let firstscore = career.firstscore,
-      lastscore = career.lastscore,
-      vacants = career.vacancies,
-      total = ((firstscore - lastscore) / vacants)
-
-  arraycareer.forEach(function(arraycareers.push(total)))
-  return postulations.map(({career}) => ({
-    firstscore: career.firstscore
-  }))
-
-}
-*/
 
 async function insertPostulant(rawPostulant) {
   try {
     // Se inserta postulante
     const postulant = await models.Postulant.create(rawPostulant)
     // Se obtienen todas las carreras para calcular la ponderacion del estudiante
-    const careers = await models.Career.findAll({ raw: true })
+    const careers = await models.Career.findAll()
     const postulationsPromises = []
     const postulations = []
 
@@ -48,9 +35,11 @@ async function insertPostulant(rawPostulant) {
         minScore,
         name,
         code,
+        estimatedPlace,
       }) => {
         // Se calcula la ponderacion del postulante
-        const canPostulate = (postulant.math + postulant.lang) / 2 >= avgMathlang
+        const canPostulate =
+          (postulant.math + postulant.lang) / 2 >= avgMathlang
         const score =
           lang * postulant.lang +
           math * postulant.math +
@@ -71,7 +60,7 @@ async function insertPostulant(rawPostulant) {
       },
     )
     await Promise.all(postulationsPromises)
-    return postulations.sort((a, b) => b.score - a.score).slice(10);
+    return postulations.sort((a, b) => b.score - a.score).slice(10)
   } catch (error) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }

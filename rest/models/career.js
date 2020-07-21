@@ -17,9 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       estimatedPlace: {
         type: DataTypes.VIRTUAL,
         get() {
-          return parseFloat(Math.trunc((this.firstScore - this.lastScore) / this.vacancies *1000)/1000).toFixed(3)
-        }
-      } 
+          return parseFloat(
+            Number(
+              (this.get(`firstScore`) - this.get(`lastScore`)) /
+                this.get(`vacancies`),
+            ).toFixed(2),
+          )
+        },
+      },
     },
     {},
   )
@@ -32,4 +37,3 @@ module.exports = (sequelize, DataTypes) => {
   }
   return Career
 }
-
