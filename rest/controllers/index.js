@@ -93,7 +93,6 @@ async function careerByCode(req, res) {
 }
 
 async function careersByName(req, res) {
-  // TODO: normalizar el string de los nombres antes de comprar en la db
   const { careerNames } = req.query
   if (!careerNames || careerNames.length === 0) {
     return res.status(400).json({
