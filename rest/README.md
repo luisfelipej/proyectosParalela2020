@@ -1,6 +1,15 @@
 # Proyecto REST
 
-TODO: descripción del proyecto y tecnologías utilizadas.
+Búsqueda de carrearas y postulaciones de la UTEM
+
+### Tecnologías
+El proyecto utiliza las siguientes tecnologías para que funcione correctamente:
+
+* [node.js] - eventos I/O para el backend
+* [Express] - Framework de NodeJS para creación de servidor REST
+* [Sequelize] - ORM para manejo de base de datos
+* [MySQL] - Motor de base de datos
+* [JWT] - Manejo de autentificación y seguridad de la API
 
 ### Instalación
 
@@ -28,107 +37,26 @@ $ npm start
 
 ### Endpoints
 
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
 
-| Nombre        | URL                     | Verbo | Descripción |
-| ---------     | ----------------------- | ----- | ----------- |
-| careersByName | [localhost:4000/][pldb] | GET   | Consultar los puntajes de postulación para algunas (una o más) carreras en función de ciertos valores que pueden o no pueden estar presente.
-| careerByCode  | [localhost:4000/][plgh] | GET   | Consultar los puntajes de postulación para una carrera específica
-| topCareers    | [localhost:4000/][plgh] | POST  | Consultar en base a puntajes puntajes, las 10 carreras en las que   mejores opciones se tiene para postular a la Universidad.
+| Nombre        | URL                     | Verbo | Descripción | Query Params | Tipo | Body
+| ---------     | ----------------------- | ----- | ----------- | -----| ---| ----|
+| careersByName | [localhost:3000/careersByName][careersByName] | GET   | Consultar los puntajes de postulación para algunas (una o más) carreras en función de ciertos valores que pueden o no pueden estar presente. | careerNames | string[] | -
+| careerByCode  | [localhost:3000/careerByCode][careerByCode] | GET   | Consultar los puntajes de postulación para una carrera específica | code | number | -
+| topCareers    | [localhost:3000/topCareers][topCareers] | POST  | Consultar en base a puntajes puntajes, las 10 carreras en las que   mejores opciones se tiene para postular a la Universidad. | - | - | postulant object {}
 
-### Request
--   ```
-    http://localhost:3000/careersByName?careerNames=arquitectura&careerNames=administracion%20publica
-
-    ```
-    careerNames: Arquitectura, 
-    careerNames: administracion publica
--   ```
-    http://localhost:3000/careerByCode?code=21041
-
-    ```
-    code: 21041
--    ```
-    http://localhost:4000/topCareers
-
-    ```
+```
+postulantJSON = {
+    "nem": number,
+    "ranking": number,
+    "math": number,
+    "lang": number,
+    "cienc": number,
+    "hist": number
+}
+```
 
 
-### Response
--   ``` 
-    {
-    "success": true,
-    "data": [
-        {
-        "estimatedPlace": "3.222",
-        "id": 1,
-        "name": "Administración Pública",
-        "vacancies": 35,
-        "code": 21089,
-        "lang": 0.3,
-        "math": 0.25,
-        "ciencHist": 0.1,
-        "avgMathlang": 450,
-        "ranking": 0.2,
-        "nem": 0.15,
-        "firstScore": 625.8,
-        "lastScore": 513,
-        "minScore": 400,
-        "createdAt": "2020-07-19T01:24:22.000Z",
-        "updatedAt": "2020-07-19T01:24:22.000Z"
-        },
-        {
-        "estimatedPlace": "1.128",
-        "id": 8,
-        "name": "Arquitectura",
-        "vacancies": 100,
-        "code": 21047,
-        "lang": 0.2,
-        "math": 0.2,
-        "ciencHist": 0.2,
-        "avgMathlang": 450,
-        "ranking": 0.25,
-        "nem": 0.15,
-        "firstScore": 640.2,
-        "lastScore": 527.4,
-        "minScore": 400,
-        "createdAt": "2020-07-19T01:24:22.000Z",
-        "updatedAt": "2020-07-19T01:24:22.000Z"
-        }
-    ]
-    }
-    ```
--   ```
-    {
-    "success": true,
-    "data": {
-        "estimatedPlace": "1.030",
-        "id": 21,
-        "name": "Ingeniería Civil en Computación mención Informática ",
-        "vacancies": 130,
-        "code": 21041,
-        "lang": 0.2,
-        "math": 0.35,
-        "ciencHist": 0.1,
-        "avgMathlang": 450,
-        "ranking": 0.25,
-        "nem": 0.1,
-        "firstScore": 673.5,
-        "lastScore": 539.5,
-        "minScore": 400,
-        "createdAt": "2020-07-19T01:24:22.000Z",
-        "updatedAt": "2020-07-19T01:24:22.000Z"
-    }
-    }
-    ```
-- 
 
-
-### Todos
-
-- Completar README
-- Descripción del proyecto
-- Completar y mejorar tabla de endpoints
 
 ## License
 
@@ -150,9 +78,12 @@ MIT
 [express]: http://expressjs.com
 [angularjs]: http://angularjs.org
 [gulp]: http://gulpjs.com
-[pldb]: https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md
-[plgh]: https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md
-[plgd]: https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md
+[careersByName]: http://localhost:3000/careersByName
+[careerByCode]: http://localhost:3000/careerByCode
+[topCareers]: http://localhost:3000/topCareers
 [plod]: https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md
 [plme]: https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md
 [plga]: https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md
+[Sequelize]: https://sequelize.org/
+[MySQL]: https://www.mysql.com/
+[JWT]: https://jwt.io/
