@@ -60,11 +60,7 @@ async function insertPostulant(rawPostulant) {
       },
     )
     await Promise.all(postulationsPromises)
-<<<<<<< HEAD
     return postulations.sort((a, b) => b.score - a.score).slice(10)
-=======
-    return postulations.sort((a, b) => b.score - a.score).slice(10);
->>>>>>> 3b167f82e9d49c2627d3762442088fcb48b4353c
   } catch (error) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }
