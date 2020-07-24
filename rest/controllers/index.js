@@ -123,7 +123,6 @@ async function careersByName(req, res) {
 }
 
 async function topCareers(req, res) {
-  // TODO: normalizar el string de los nombres antes de comprar en la db
   const { nem, ranking, math, lang, cienc, hist } = req.body
   if (!nem || !ranking || !math || !lang || !cienc || !hist) {
     return res.status(400).json({
@@ -151,7 +150,6 @@ async function topCareers(req, res) {
     } else {
       // Insertar postulante y calcular ponderaciones
       careers = await insertPostulant(req.body)
-      // Seleccionar las mejores 10
     }
     return res.status(200).json({
       success: true,
