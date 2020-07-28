@@ -1,0 +1,8 @@
+PROJECT( Images )
+cmake_minimum_required(VERSION 2.8)
+#find_package( OpenCV REQUIRED PATHS "${CMAKE_CURRENT_SOURCE_DIR}/build")
+ADD_EXECUTABLE( Images main.cpp )
+SET(OpenCV_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+SET(CMAKE_C_COMPILER mpicc)
+SET(CMAKE_CXX_COMPILER mpicxx)
+target_link_libraries( Images ${OpenCV_LIBS} mpi )
