@@ -19,5 +19,5 @@ Uso de la aplicación
 $ cd build
 $ cmake .
 $ make
-$ ./Images <operacion> <ruta_imagen>
+$ mpirun ./Images <operacion> <ruta_imagen>
 ```
