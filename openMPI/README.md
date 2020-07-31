@@ -4,13 +4,20 @@
 
 Instalar las librerías de openCV para manipulación de imagenes
 ```sh
+$ mkdir libs
+$ cd libs
 $ git clone https://github.com/opencv/opencv.git
-$ git clone https://github.com/opencv/opencv_contrib.git
+$ mkdir buid_opencv
+$ cd build_opencv
+$ cmake ../opencv
+$ make
+$ cd ../../
 ```
 
-Builder cmake necesario
+Uso de la aplicación
 ```sh
-$ mkdir build
 $ cd build
-$ cmake -DCMAKE_BUILD_TYPE=Debug ../opencv
+$ cmake .
+$ make
+$ ./Images <operacion> <ruta_imagen>
 ```
