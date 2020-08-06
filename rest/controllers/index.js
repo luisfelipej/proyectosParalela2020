@@ -1,4 +1,14 @@
 const models = require(`../models`)
+const { Op } = require(`sequelize`)
+
+function searchQuery({ values, column }) {
+  const options = values.map((value) => ({
+    [column]: { [Op.like]: `%${value}%` },
+  }))
+  return {
+    [Op.or]: options,
+  }
+}
 
 function formatCareers(postulant) {
   const { postulations } = postulant.get({ plain: true })
@@ -102,7 +112,8 @@ async function careersByName(req, res) {
   }
   try {
     const careers = await models.Career.findAll({
-      where: { name: careerNames },
+      where: searchQuery({ values: careerNames, column: `name` }),
+      order: [[`name`, `ASC`]],
     })
     if (careers.length === 0) {
       return res.status(400).json({
