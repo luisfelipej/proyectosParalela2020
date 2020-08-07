@@ -1,63 +1,48 @@
-// This program shows off the basics of using MPI with C++
-// with synchronized output
-// By: Nick from CoffeeBeforeArch
-
 #include <mpi.h>
 #include <stdio.h>
 #include <iostream>
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
-  // Unique rank is assigned to each process in a communicator
-  int rank;
+/**
+ * @param argc cantidad de argumentos
+ * @param argv arreglo de argumentos
+ * @return salida exitosa o fallida
+*/
 
-  // Total number of ranks
-  int size;
+int main(int argc, char **argv) {
 
-  // The machine we are on
-  char name[80];
+  if(argc > 2){
+    int rank, size;
+    char* imgName = argv[1];
+  
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-  // Length of the machine name
-  int length;
+    if(rank == 0){
+      Mat img = imread(imgName, 1);
+      if(!img.data) exit(-1);
+      int index = 1; 
+      int diferents = img.cols / size;
+      
+      Mat imgsplt(Size(diferents, img.rows), img.type()).clone();
 
-  // Initializes the MPI execution environment
-  MPI_Init(&argc, &argv);
 
-  // Get this process' rank (process within a communicator)
-  // MPI_COMM_WORLD is the default communicator
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-  // Get the total number ranks in this communicator
-  MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-  // Gets the name of the processor
-  // Implementation specific (may be gethostname, uname, or sysinfo)
-  MPI_Get_processor_name(name, &length);
-
-  // Pack these values together into a string
-  int buffer_len = 150;
-  char buffer[buffer_len];
-  sprintf(buffer, "Hello, MPI! Rank: %d Total: %d Machine: %s", rank, size,
-          name);
-
-  // Synchronize so we can remove interleaved output
-  if (rank == 0) {
-    // Always print from rank 0
-    cout << buffer << endl;
-    for (int i = 1; i < size; i++) {
-      // Takes buffer, size, type, source, tag, communicator, and status
-      MPI_Recv(buffer, buffer_len, MPI_CHAR, i, MPI_ANY_TAG,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-      // Print our received message
-      printf("%s\n", buffer);
     }
-  } else {
-    // If not rank zero, send your message to be printed
-    MPI_Send(buffer, buffer_len, MPI_CHAR, 0, rank, MPI_COMM_WORLD);
-  }
 
-  // Terminate MPI execution environment
-  MPI_Finalize();
+    if(rank != 0){
+      Mat otherimg = Mat(512,128,CV_8UC3);
+      MPI_Irecv(otherimg.data, 128*512*3, MPI_BYTE, 0, 0, MPI_COMM_WORLD, &rec_request);
+      MPI_Wait(&rec_request, &status);
+
+      ostringstream salida;
+      salida << rank ;
+      imwrite(salida.str(), otherimg)
+    }
+
+
+    }
+    MPI_Finalize();
+    return 0;
 }
