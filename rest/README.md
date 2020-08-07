@@ -41,7 +41,7 @@ $ npm start
 | Nombre        | URL                     | Verbo | Descripción | Query Params | Tipo | Body
 | ---------     | ----------------------- | ----- | ----------- | -----| ---| ----|
 | careersByName | [localhost:3000/careersByName][careersByName] | GET   | Consultar los puntajes de postulación para algunas (una o más) carreras en función de ciertos valores que pueden o no pueden estar presente. | careerNames | string[] | -
-| careerByCode  | [localhost:3000/careerByCode][careerByCode] | GET   | Consultar los puntajes de postulación para una carrera específica | code | number | -
+| careerByCode  | [localhost:3000/careerByCode/:carrer_code][careerByCode] | GET   | Consultar los puntajes de postulación para una carrera específica | code | number | -
 | topCareers    | [localhost:3000/topCareers][topCareers] | POST  | Consultar en base a puntajes puntajes, las 10 carreras en las que   mejores opciones se tiene para postular a la Universidad. | - | - | postulant object {}
 
 ```
@@ -79,7 +79,7 @@ MIT
 [angularjs]: http://angularjs.org
 [gulp]: http://gulpjs.com
 [careersByName]: http://localhost:3000/careersByName
-[careerByCode]: http://localhost:3000/careerByCode
+[careerByCode]: http://localhost:3000/careerByCode/21041
 [topCareers]: http://localhost:3000/topCareers
 [plod]: https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md
 [plme]: https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md
