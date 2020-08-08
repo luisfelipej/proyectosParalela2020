@@ -35,11 +35,15 @@ int main(int argc, char **argv) {
       if(!img.data) exit(-1);
       int index = 1; 
       int diferents = img.cols / size;
+      for(int i = 0; i < img.cols; i+=img.rows){
+        Mat imgsplt(Size(diferents, img.rows), img.type()).clone();
+        MPI_Scatterv(img.data,send_counts, displacements, MPI_BYTE, NULL, 0, MPI_BYTE, 0, MPI_COMM_WORLD);
+        //MPI_Isend(imgsplt.data, diferents, MPI_BYTE, index, 0, MPI_COMM_WOLRD, &send_request);
+        delete [] send_counts;
+        delete [] displacements;
+        index++;
+      }
       
-      Mat imgsplt(Size(diferents, img.rows), img.type()).clone();
-      MPI_Scatterv(img.data,send_counts, displacements, MPI_BYTE, NULL, 0, MPI_BYTE, 0, MPI_COMM_WORLD);
-      delete [] send_counts;
-      delete [] displacements;
       
 
     } else {
