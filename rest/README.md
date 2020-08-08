@@ -35,6 +35,11 @@ $ npm run db:sync
 $ npm start
 ```
 
+### Bearer token
+```
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QifQ.6NWlu6UzoIQW4GlN1nNjboZQLX65BUq8NrfIRzLerUM
+```
+
 ### Endpoints
 
 
