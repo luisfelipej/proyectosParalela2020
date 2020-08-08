@@ -1,6 +1,6 @@
 PROJECT( Images )
 cmake_minimum_required(VERSION 2.8)
-find_package( OpenCV REQUIRED PATHS )
+find_package( OpenCV REQUIRED )
 ADD_EXECUTABLE( Images ../src/main.cpp )
 SET(CMAKE_C_COMPILER mpicc)
 SET(CMAKE_CXX_COMPILER mpicxx)
