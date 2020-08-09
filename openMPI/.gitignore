@@ -1,0 +1,69 @@
+opencv
+opencv_contrib
+libs
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/c++,cmake,opencv
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,cmake,opencv
+
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+### CMake ###
+build/CMakeLists.txt.user
+build/CMakeCache.txt
+build/CMakeFiles
+build/CMakeScripts
+build/Testing
+build/Makefile
+build/cmake_install.cmake
+build/install_manifest.txt
+build/compile_commands.json
+build/CTestTestfile.cmake
+build/_deps
+
+### CMake Patch ###
+# External projects
+*-prefix/
+
+### OpenCV ###
+#OpenCV for Mac and Linux
+#build and release folders
+*/CMakeFiles
+*/CMakeCache.txt
+*/Makefile
+*/cmake_install.cmake
+.DS_Store
+
+# End of https://www.toptal.com/developers/gitignore/api/c++,cmake,opencv
