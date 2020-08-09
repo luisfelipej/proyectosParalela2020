@@ -15,7 +15,7 @@ using namespace cv;
 // TODO: pasar a utils
 void sendMat(Mat& m, int dest);
 Mat recvMat(int source);
-Mat transformImgByOption(string option, Mat m);
+Mat transformImgByOption(int option, Mat m);
 void mergeImage(Mat m, Mat & final);
 
 const int MAXBYTES=8*1920*1920;
@@ -31,13 +31,18 @@ int main(int argc, char *argv[]) {
     int size;
     ostringstream s;
 
+    int option = stoi(argv[1]);
+
+    if (option < 1 || option > 3) {
+        cout << "Opcion ingresada no valida" << endl;
+        return -1;
+    }
+
     // Initializes the MPI execution environment
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
-    string option = argv[1];
     string imgPath = argv[2];
     Mat img = imread(imgPath, 1);
     if (!img.data || img.empty()) {
@@ -99,9 +104,12 @@ Mat recvMat(int source) {
     return Mat(rows, cols, type, (uchar*)&buffer[3*sizeof(int)]);
 }
 
-Mat transformImgByOption(string option, Mat m) {
+Mat transformImgByOption(int option, Mat m) {
     Mat finalImg;
-    if (option == "3") {
+    if (option == 1) {
+        GaussianBlur(m, finalImg, Size(m.cols, m.rows), 0);
+    }
+    if (option == 3) {
         resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
     }
     return finalImg;
