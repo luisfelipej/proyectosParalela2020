@@ -1,7 +1,3 @@
-// This program shows off the basics of using MPI with C++
-// with synchronized output
-// By: Nick from CoffeeBeforeArch
-
 #include <mpi.h>
 #include <string>
 #include <stdio.h>
@@ -56,22 +52,33 @@ int main(int argc, char *argv[]) {
     int sliceLength = img.cols/(size-1);
 	// Si soy el hilo 0, repartir el trabajo
     if (rank == 0) {
+    	// Genero Imagen Final
         Mat finalImg;
+        // Creo contador para asignar tarea a los hilos
         int idx = 1;
-
+		// Por cada hilo
         for (int c=0;c < img.cols; c+= sliceLength) {
+        	// Genero porcion de imagen para trabajar
             Mat sliceImg = img(Rect(c, 0, sliceLength, img.rows)).clone();
+            // Se lo envio al hilo correspondiente
             sendMat(sliceImg, idx);
+            // Recibo porcion procesada
             Mat m = recvMat(idx);
+            // Empiezo a generar la imagen final
             mergeImage(m, finalImg);
+            // Trabajo con el siguiente hilo
             idx++;
         }
         s << "./final.jpg";
         imwrite(s.str(), finalImg);
     }
+    // Si soy cualquiera de los otros hilos, trabajo lo enviado por el hilo 0
     else {
+    	// Obtengo imagen
         Mat cuttedImg = recvMat(0);
+        // Proceso segun lo solicitado
         Mat finishedImg = transformImgByOption(option, cuttedImg);
+        // Envio lo solicitado
         sendMat(finishedImg, 0);
 
     }
