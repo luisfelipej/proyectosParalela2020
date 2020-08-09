@@ -15,6 +15,9 @@ using namespace cv;
 // TODO: pasar a utils
 void sendMat(Mat& m, int dest);
 Mat recvMat(int source);
+Mat transformImgByOption(string option, Mat m);
+void mergeImage(Mat m, Mat & final);
+
 const int MAXBYTES=8*1920*1920;
 uchar buffer[MAXBYTES];
 
@@ -34,7 +37,8 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
 
-    string imgPath = argv[1];
+    string option = argv[1];
+    string imgPath = argv[2];
     Mat img = imread(imgPath, 1);
     if (!img.data || img.empty()) {
         cout << "No se pudo leer la imagen" << endl;
@@ -43,19 +47,23 @@ int main(int argc, char *argv[]) {
     int sliceLength = img.cols/(size-1);
 
     if (rank == 0) {
+        Mat finalImg;
         int idx = 1;
 
         for (int c=0;c < img.cols; c+= sliceLength) {
             Mat sliceImg = img(Rect(c, 0, sliceLength, img.rows)).clone();
             sendMat(sliceImg, idx);
+            Mat m = recvMat(idx);
+            mergeImage(m, finalImg);
             idx++;
         }
+        s << "./final.jpg";
+        imwrite(s.str(), finalImg);
     }
     else {
-        Mat splittedImg = recvMat(0);
-        s << "./" << rank << ".jpg";
-        cout << s.str() << endl;
-        imwrite(s.str(), splittedImg);
+        Mat cuttedImg = recvMat(0);
+        Mat finishedImg = transformImgByOption(option, cuttedImg);
+        sendMat(finishedImg, 0);
 
     }
 
@@ -89,4 +97,21 @@ Mat recvMat(int source) {
     memcpy((uchar*)&type, &buffer[2 * sizeof(int)], sizeof(int));
 
     return Mat(rows, cols, type, (uchar*)&buffer[3*sizeof(int)]);
+}
+
+Mat transformImgByOption(string option, Mat m) {
+    Mat finalImg;
+    if (option == "3") {
+        resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
+    }
+    return finalImg;
+}
+
+void mergeImage(Mat m, Mat & final) {
+    if (final.empty()) {
+        final = m.clone();
+    }
+    else {
+        hconcat(final, m, final);
+    }
 }
