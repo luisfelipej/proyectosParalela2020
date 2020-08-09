@@ -9,9 +9,26 @@ using namespace std;
 using namespace cv;
 
 // TODO: pasar a utils
+/*	
+	Función que se encarga de enviar la imagen
+	Esto se logra haciendo conversion de nuestra variable Mat a una matriz Char
+	Para asi hacer envio a traves de MPI.
+*/
 void sendMat(Mat& m, int dest);
+
+/*	
+	Función que se encarga de recibir la imagen
+	Hace el proceso inverso de sendMat, es decir:
+	Convierte la matriz Char en una variable Mat para poder trabajar con el posteriormente
+*/
 Mat recvMat(int source);
+/*
+	Proceso la imagen segun las opciones solicitadas.
+*/
 Mat transformImgByOption(int option, Mat m);
+/*
+	Funcion que nos permite combinar las imagenes
+*/
 void mergeImage(Mat m, Mat & final);
 
 const int MAXBYTES=8*1920*1920;
@@ -115,7 +132,6 @@ Mat recvMat(int source) {
     return Mat(rows, cols, type, (uchar*)&buffer[3*sizeof(int)]);
 }
 
-// Proceso la imagen segun las opciones solicitadas.
 Mat transformImgByOption(int option, Mat m) {
 	// Creo la imagen final
     Mat finalImg;
@@ -130,7 +146,6 @@ Mat transformImgByOption(int option, Mat m) {
     return finalImg;
 }
 
-// Funcion que nos permite combinar las imagenes
 void mergeImage(Mat m, Mat & final) {
     if (final.empty()) {
         final = m.clone();
