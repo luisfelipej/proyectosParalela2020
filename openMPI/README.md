@@ -2,16 +2,10 @@
 
 ## Instalación
 
-Instalar las librerías de openCV para manipulación de imagenes
+Instalar las librerías de openCV para manipulación de imagenes.
+En Ubuntu 20.04
 ```sh
-$ mkdir libs
-$ cd libs
-$ git clone https://github.com/opencv/opencv.git
-$ mkdir buid_opencv
-$ cd build_opencv
-$ cmake ../opencv
-$ make
-$ cd ../../
+$ sudo apt-get install libopencv-dev
 ```
 
 Uso de la aplicación
