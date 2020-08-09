@@ -1,7 +1,3 @@
-// This program shows off the basics of using MPI with C++
-// with synchronized output
-// By: Nick from CoffeeBeforeArch
-
 #include <mpi.h>
 #include <string>
 #include <stdio.h>
