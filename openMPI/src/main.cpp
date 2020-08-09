@@ -1,13 +1,11 @@
-// This program shows off the basics of using MPI with C++
-// with synchronized output
-// By: Nick from CoffeeBeforeArch
-
 #include <mpi.h>
 #include <string>
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <time.h>
 #include <opencv2/opencv.hpp>
+#include <opencv4/opencv2/core/core.hpp>
 
 using namespace std;
 using namespace cv;
@@ -17,6 +15,7 @@ void sendMat(Mat& m, int dest);
 Mat recvMat(int source);
 Mat transformImgByOption(int option, Mat m);
 void mergeImage(Mat m, Mat & final);
+string dateTime();
 
 const int MAXBYTES=8*1920*1920;
 uchar buffer[MAXBYTES];
@@ -62,7 +61,7 @@ int main(int argc, char *argv[]) {
             mergeImage(m, finalImg);
             idx++;
         }
-        s << "./final.jpg";
+        s << "operacion_NUMERO_"+dateTime()+".png";
         imwrite(s.str(), finalImg);
     }
     else {
@@ -109,6 +108,9 @@ Mat transformImgByOption(int option, Mat m) {
     if (option == 1) {
         GaussianBlur(m, finalImg, Size(m.cols, m.rows), 0);
     }
+    if (option == 2) {
+        cvtColor(m, finalImg, COLOR_RGB2GRAY);
+    }
     if (option == 3) {
         resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
     }
@@ -122,4 +124,13 @@ void mergeImage(Mat m, Mat & final) {
     else {
         hconcat(final, m, final);
     }
+}
+
+string dateTime(){
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y%m%d%H%M%S", &tstruct);
+    return buf;
 }
