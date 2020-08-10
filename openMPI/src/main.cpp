@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
             mergeImage(m, finalImg);
             idx++;
         }
-        s << "operacion_NUMERO_"+dateTime()+".png";
+        s << "operacion_" << option << "_" << dateTime() << ".png";
         imwrite(s.str(), finalImg);
     }
     else {
