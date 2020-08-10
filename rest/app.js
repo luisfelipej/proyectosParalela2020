@@ -10,7 +10,9 @@ const app = express()
 
 require(`dotenv`).config()
 app.use(cors())
-app.use(jwt({ secret: process.env.SECRET || `secret_token` }))
+app.use(
+  jwt({ secret: process.env.SECRET || `secret_token`, algorithms: [`HS256`] }),
+)
 app.use(logger(`dev`))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
