@@ -1,5 +1,16 @@
 const models = require(`../models`)
+const { Op } = require(`sequelize`)
 
+// Funcion que devuelve opciones formateadas de busqueda en una columna de la base de datos
+function searchQuery({ values, column }) {
+  const options = values.map((value) => ({
+    [column]: { [Op.like]: `%${value}%` },
+  }))
+  return {
+    [Op.or]: options,
+  }
+}
+// Funcion que devuelve un arreglo de las carreras formateadas para un postulante
 function formatCareers(postulant) {
   const { postulations } = postulant.get({ plain: true })
   return postulations.map(({ score, career }) => ({
@@ -13,7 +24,8 @@ function formatCareers(postulant) {
     ),
   }))
 }
-
+// Funcion que ingresa una postulacion a la DB,
+// calculando ponderaciones con las carreras en el sistema
 async function insertPostulant(rawPostulant) {
   try {
     // Se inserta postulante
@@ -65,9 +77,9 @@ async function insertPostulant(rawPostulant) {
     return Promise.reject(`No se ha podido ingresar al postulante`)
   }
 }
-
+// Controlador con la funcionalidad de buscar una carrera mediante su código
 async function careerByCode(req, res) {
-  const { code } = req.query
+  const { code } = req.params
   if (!code) {
     return res
       .status(400)
@@ -91,7 +103,7 @@ async function careerByCode(req, res) {
     })
   }
 }
-
+// Controlador con la funcionalidad de buscar carreras a través de un nombre
 async function careersByName(req, res) {
   const { careerNames } = req.query
   if (!careerNames || careerNames.length === 0) {
@@ -102,7 +114,8 @@ async function careersByName(req, res) {
   }
   try {
     const careers = await models.Career.findAll({
-      where: { name: careerNames },
+      where: searchQuery({ values: careerNames, column: `name` }),
+      order: [[`name`, `ASC`]],
     })
     if (careers.length === 0) {
       return res.status(400).json({
@@ -121,7 +134,7 @@ async function careersByName(req, res) {
     })
   }
 }
-
+// Se calcula los mejores 10 ponderaciones segun puntajes
 async function topCareers(req, res) {
   const { nem, ranking, math, lang, cienc, hist } = req.body
   if (!nem || !ranking || !math || !lang || !cienc || !hist) {

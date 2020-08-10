@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <time.h>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -30,6 +31,7 @@ Mat transformImgByOption(int option, Mat m);
 	Funcion que nos permite combinar las imagenes
 */
 void mergeImage(Mat m, Mat & final);
+string dateTime();
 
 const int MAXBYTES=8*1920*1920;
 uchar buffer[MAXBYTES];
@@ -86,7 +88,7 @@ int main(int argc, char *argv[]) {
             // Trabajo con el siguiente hilo
             idx++;
         }
-        s << "./final.jpg";
+        s << "operacion_" << option << "_" << dateTime() << ".png";
         imwrite(s.str(), finalImg);
     }
     // Si soy cualquiera de los otros hilos, trabajo lo enviado por el hilo 0
@@ -139,6 +141,9 @@ Mat transformImgByOption(int option, Mat m) {
     if (option == 1) {
         GaussianBlur(m, finalImg, Size(5, 5), 0);
     }
+    if (option == 2) {
+        cvtColor(m, finalImg, COLOR_RGB2GRAY);
+    }
     // Se amplifica la foto en un 33,34%
     if (option == 3) {
         resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
@@ -153,4 +158,13 @@ void mergeImage(Mat m, Mat & final) {
     else {
         hconcat(final, m, final);
     }
+}
+
+string dateTime(){
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y%m%d%H%M%S", &tstruct);
+    return buf;
 }
