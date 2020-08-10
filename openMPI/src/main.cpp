@@ -139,7 +139,7 @@ Mat transformImgByOption(int option, Mat m) {
     Mat finalImg;
     // Se genera el difuminado mediante Gaussian
     if (option == 1) {
-        GaussianBlur(m, finalImg, Size(5, 5), 0);
+        GaussianBlur(m, finalImg, Size(9, 9), 0);
     }
     if (option == 2) {
         cvtColor(m, finalImg, COLOR_RGB2GRAY);
