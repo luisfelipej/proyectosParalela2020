@@ -13,7 +13,7 @@ using namespace cv;
 
 /** Función que se encarga de enviar la imagen
  * @param m imagen la cual se trabaja
- * @param dest procesador la cual se le envia la imagen
+ * @param dest procesador al cual se le envia la imagen
 */
 void sendMat(Mat& m, int dest);
 
