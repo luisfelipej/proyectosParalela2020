@@ -12,7 +12,7 @@ using namespace cv;
 // TODO: pasar a utils
 
 /** Función que se encarga de enviar la imagen
- * @param m imagen la cual se traba
+ * @param m imagen la cual se trabaja
  * @param dest destino de la imagen
 */
 void sendMat(Mat& m, int dest);
@@ -158,7 +158,7 @@ Mat transformImgByOption(int option, Mat m) {
     }
     // Se amplifica la foto en un 33,4%
     if (option == 3) {
-        resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
+        resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334));
     }
     return finalImg;
 }
