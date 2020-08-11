@@ -10,29 +10,35 @@ using namespace std;
 using namespace cv;
 
 // TODO: pasar a utils
-/*	
-	Función que se encarga de enviar la imagen
-	Esto se logra haciendo conversion de nuestra variable Mat a una matriz Char
-	Para asi hacer envio a traves de MPI.
+
+/** Función que se encarga de enviar la imagen
+ * @param m imagen la cual se traba
+ * @param dest destino de la imagen
 */
 void sendMat(Mat& m, int dest);
 
-/*	
-	Función que se encarga de recibir la imagen
-	Hace el proceso inverso de sendMat, es decir:
-	Convierte la matriz Char en una variable Mat para poder trabajar con el posteriormente
+/** Función que se encarga de recibir la imagen
+ * @param source destino de la imagen recibida
 */
 Mat recvMat(int source);
-/*
-	Proceso la imagen segun las opciones solicitadas.
+
+/** Proceso la imagen segun las opciones solicitadas.
+ * @param option numero de la operacion
+ * @param m imagen a guardar
 */
 Mat transformImgByOption(int option, Mat m);
-/*
-	Funcion que nos permite combinar las imagenes
+
+/** Funcion que nos permite combinar las imagenes
+ * @param m imagen inicial a guardar
+ * @param final imagen de salida final
 */
 void mergeImage(Mat m, Mat & final);
+
+/** Funcion que devuelve fecha actual formato yyymmddhhmmss
+*/
 string dateTime();
 
+// Variables Globales
 const int MAXBYTES=8*1920*1920;
 uchar buffer[MAXBYTES];
 
@@ -106,6 +112,8 @@ int main(int argc, char *argv[]) {
     MPI_Finalize();
 }
 
+// Se envia la imagen, Esto se logra haciendo conversion de nuestra variable Mat a una matriz Char
+// Para asi hacer envio a traves de MPI.
 void sendMat(Mat& m, int dest) {
     int rows = m.rows;
     int cols = m.cols;
@@ -118,10 +126,13 @@ void sendMat(Mat& m, int dest) {
     if (m.isContinuous()) {
         m = m.clone();
     }
+    //llenando el buffer para luego liberarlo con la respectiva data
     memcpy(&buffer[3*sizeof(int)], m.data, bytes);
     MPI_Send(&buffer, bytes+3*sizeof(int), MPI_UNSIGNED_CHAR, dest, 0, MPI_COMM_WORLD);
 }
 
+// Se recibe la imagen y se hace el proceso inverso de sendMat, es decir:
+// Convierte la matriz Char en una variable Mat para poder trabajar con el posteriormente
 Mat recvMat(int source) {
     MPI_Status status;
     int count, rows, cols, type, channels;
@@ -130,7 +141,7 @@ Mat recvMat(int source) {
     memcpy((uchar*)&rows, &buffer[0 * sizeof(int)], sizeof(int));
     memcpy((uchar*)&cols, &buffer[1 * sizeof(int)], sizeof(int));
     memcpy((uchar*)&type, &buffer[2 * sizeof(int)], sizeof(int));
-
+    //liberando el buffer con la data y retorna la imagen total
     return Mat(rows, cols, type, (uchar*)&buffer[3*sizeof(int)]);
 }
 
@@ -141,10 +152,11 @@ Mat transformImgByOption(int option, Mat m) {
     if (option == 1) {
         GaussianBlur(m, finalImg, Size(9, 9), 0);
     }
+    // Se genera la imagen en escala de gries
     if (option == 2) {
         cvtColor(m, finalImg, COLOR_RGB2GRAY);
     }
-    // Se amplifica la foto en un 33,34%
+    // Se amplifica la foto en un 33,4%
     if (option == 3) {
         resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
     }
@@ -152,15 +164,20 @@ Mat transformImgByOption(int option, Mat m) {
 }
 
 void mergeImage(Mat m, Mat & final) {
+    // verifica si no hay imagen
     if (final.empty()) {
         final = m.clone();
     }
+    // si existe imagen
+    // concatena las partes de ella dando salida a la imagen completa
     else {
         hconcat(final, m, final);
     }
 }
 
 string dateTime(){
+    //se localiza la hora de manera local
+    //se devuelve en formato señalado
     time_t now = time(0);
     struct tm tstruct;
     char buf[80];
