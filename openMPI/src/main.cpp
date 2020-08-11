@@ -13,24 +13,24 @@ using namespace cv;
 
 /** Función que se encarga de enviar la imagen
  * @param m imagen la cual se trabaja
- * @param dest destino de la imagen
+ * @param dest procesador la cual se le envia la imagen
 */
 void sendMat(Mat& m, int dest);
 
 /** Función que se encarga de recibir la imagen
- * @param source destino de la imagen recibida
+ * @param source procesador que envia la imagen
 */
 Mat recvMat(int source);
 
 /** Proceso la imagen segun las opciones solicitadas.
  * @param option numero de la operacion
- * @param m imagen a guardar
+ * @param m imagen a trabajar
 */
 Mat transformImgByOption(int option, Mat m);
 
 /** Funcion que nos permite combinar las imagenes
- * @param m imagen inicial a guardar
- * @param final imagen de salida final
+ * @param m imagen que se quiere juntar
+ * @param final imagen final creada
 */
 void mergeImage(Mat m, Mat & final);
 
