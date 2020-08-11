@@ -146,7 +146,7 @@ Mat transformImgByOption(int option, Mat m) {
     }
     // Se amplifica la foto en un 33,34%
     if (option == 3) {
-        resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334), 0.334, 0.334);
+        resize(m, finalImg, Size(m.cols*1.5, m.rows*1.5));
     }
     return finalImg;
 }
