@@ -9,7 +9,6 @@
 using namespace std;
 using namespace cv;
 
-// TODO: pasar a utils
 
 /** Función que se encarga de enviar la imagen
  * @param m imagen la cual se trabaja
@@ -150,15 +149,16 @@ Mat transformImgByOption(int option, Mat m) {
     Mat finalImg;
     // Se genera el difuminado mediante Gaussian
     if (option == 1) {
-        GaussianBlur(m, finalImg, Size(9, 9), 0);
+        blur(m, finalImg, Size(3, 3),Point(-1,-1));
+    // Genera la escala de grises
     }
     // Se genera la imagen en escala de gries
     if (option == 2) {
         cvtColor(m, finalImg, COLOR_RGB2GRAY);
     }
-    // Se amplifica la foto en un 33,4%
+    // Se amplifica la foto en un 25%
     if (option == 3) {
-        resize(m, finalImg, Size(m.cols*1.334, m.rows*1.334));
+        resize(m, finalImg, Size(m.cols*1.25, m.rows*1.25));
     }
     return finalImg;
 }
