@@ -3,7 +3,7 @@
 ## Descripcion
 El proyecto consiste en cortar la imagen que se introduce en tantas columnas como procesadores disponibles haya mediante MPI, donde el procesador padre es el que realiza la tarea de cortar y repartir la imagen hacia los esclavos para que estos la devuelvan al procesador padre para construir la imagen final.
 
-**Nota:** EL tratamiento de imagenes codifican y decodifican un objeto Mat de OpenCV (imagen), esta libreria es fundamental para el trabajo de imagenes en este proyecto.
+**Nota:** El tratamiento de imagenes codifican y decodifican un objeto Mat de OpenCV (imagen), esta libreria es fundamental para el trabajo de imagenes en este proyecto.
  
 ## Instalación y Ejecución
 
