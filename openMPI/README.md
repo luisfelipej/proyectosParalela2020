@@ -28,6 +28,11 @@ mpirun -np 3 Images 1 <ruta_imagen>
 mpirun -np 3 Images 2 <ruta_imagen>
 mpirun -np 3 Images 3 <ruta_imagen>
 ```
+![Imagen original](https://github.com/luisfelipej/proyectosParalela2020/blob/master/openMPI/img-examples/hombre-feliz.png)
+![Difuminado](https://github.com/luisfelipej/proyectosParalela2020/blob/master/openMPI/img-examples/operacion_1_20200812170128.png)
+![Escala de grises](https://github.com/luisfelipej/proyectosParalela2020/blob/master/openMPI/img-examples/operacion_2_20200812170137.png)
+![Escalado de imagen en un 25%](https://github.com/luisfelipej/proyectosParalela2020/blob/master/openMPI/img-examples/operacion_3_20200812170144.png)
+
 ## License
 
 MIT
