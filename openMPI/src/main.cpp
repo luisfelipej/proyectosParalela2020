@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
     }
     // Divido la imagen en base a la cantidad de hilos disponibles.
     int sliceLength = img.cols/(size-1);
+    int surplusLength = img.cols%(size-1);
 	// Si soy el hilo 0, repartir el trabajo
     if (rank == 0) {
     	// Genero Imagen Final
@@ -83,7 +84,7 @@ int main(int argc, char *argv[]) {
 		// Por cada hilo
         for (int c=0;c < img.cols; c+= sliceLength) {
         	// Genero porcion de imagen para trabajar
-            Mat sliceImg = img(Rect(c, 0, sliceLength, img.rows)).clone();
+            Mat sliceImg = img(Rect(c, 0, idx == size ? sliceLength + surplusLength : sliceLength, img.rows)).clone();
             // Se lo envio al hilo correspondiente
             sendMat(sliceImg, idx);
             // Recibo porcion procesada
